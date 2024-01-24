@@ -15,7 +15,7 @@ function App() {
 		<>
 			<div>
 				<Button as="a" variant="danger">
-					Button as link
+					Button as link aahihiih
 				</Button>
 				<a href="https://vitejs.dev" target="_blank" rel="noreferrer">
 					<img src={viteLogo} className="logo" alt="Vite logo" />

@@ -4,72 +4,75 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { useEffect, useState } from 'react';
 
 import Button from 'react-bootstrap/Button';
+import Table from 'react-bootstrap/Table';
 import axios from 'axios';
-import reactLogo from './assets/react.svg';
-import viteLogo from '/vite.svg';
 
 function App() {
-	// useState: quản lý state của component
-	const [number, setNumber] = useState(0);
-	// useEffect: chạy 1 lần sau khi render
-	// có 3 trường hợp
-	// 1. không có tham số thứ 2: chạy sau khi render
-	// useEffect(() => {
-	// 	setInterval(() => {
-	// 		console.log('interval');
-	// 	}, 1000);
-	// });
-	// 2. có tham số thứ 2 là 1 mảng rỗng: chạy sau khi render
-	// useEffect(() => {
-	// 	const fetchData = async () => {
-	// 		const response = await axios.get(' http://localhost:3000/products');
-	// 		const data = response.data;
-	// 		console.log('🚀 ~ fetchData ~ data:', data);
-	// 	};
-	// 	fetchData();
-	// }, []);
-	// 3. có tham số thứ 2 là 1 mảng có giá trị: chạy sau khi render
-	const [productsList, setProductsList] = useState([]);
-	console.log('🚀 ~ App ~ productsList:', productsList);
+	const [proudcts, setProducts] = useState([]);
+	console.log('🚀 ~ App ~ proudcts:', proudcts);
+
 	useEffect(() => {
 		const fetchData = async () => {
-			const response = await axios.get(' http://localhost:3000/products');
+			const response = await axios.get('http://localhost:3000/products');
 			const data = response.data;
-			setProductsList(data);
+			setProducts(data);
 		};
 		fetchData();
-	}, [number]);
+	}, []);
+
+	const handleDeleteProduct = async (id) => {
+		console.log(id);
+	};
 
 	return (
-		<div>
-			{/* {data.map((value) => {
-					return <div key={value.id}>{value.name}</div>;
-				})} */}
-			<div>number của tôi: {number}</div>
-			<div>
-				<Button variant="primary" onClick={() => setNumber(number + 1)}>
-					Number
-				</Button>
-			</div>
-			<Button as="a" variant="danger">
-				Button as link aahihiih
-			</Button>
-
-			<div>
-				{productsList.map((productItem) => {
-					console.log(
-						'🚀 ~ <div>{productsList.map ~ productItem:',
-						productItem
-					);
-					return (
-						<div key={Math.random()}>
-							<p>{productItem.name}</p>
-							<p>{productItem.price}</p>
-							<img src={productItem.image} alt="" />
-						</div>
-					);
-				})}
-			</div>
+		<div
+			style={{
+				padding: '40px',
+			}}
+		>
+			<Table
+				striped
+				bordered
+				hover
+				width={900}
+				className="px-5"
+				style={{
+					padding: '40px',
+				}}
+			>
+				<thead>
+					<tr>
+						<th>#</th>
+						<th>Name</th>
+						<th>Pirce</th>
+						<th>Image</th>
+						<th>Action</th>
+					</tr>
+				</thead>
+				<tbody>
+					{proudcts &&
+						proudcts.length > 0 &&
+						proudcts.map((product) => (
+							<tr key={product.id}>
+								<td>{product.id}</td>
+								<td>{product.name}</td>
+								<td>{product.price}</td>
+								<td>
+									<img src={product.image} />
+								</td>
+								<td>
+									<Button variant="primary">Edit</Button>
+									<Button
+										variant="danger"
+										onClick={() => handleDeleteProduct(product.id)}
+									>
+										Delete
+									</Button>
+								</td>
+							</tr>
+						))}
+				</tbody>
+			</Table>
 		</div>
 	);
 }

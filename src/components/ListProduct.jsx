@@ -85,7 +85,9 @@ const ListProduct = () => {
 										/>
 									</td>
 									<td>
-										<Button variant="primary">Edit</Button>
+										<Link to={`/edit-product/${product.id}`}>
+											<Button variant="primary">Edit</Button>
+										</Link>
 										<Button
 											variant="danger"
 											onClick={() => handleDeleteProduct(product.id)}

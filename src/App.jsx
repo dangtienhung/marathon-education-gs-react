@@ -5,6 +5,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 
 import AddProduct from './components/AddProduct';
+import EditProduct from './components/EditProduct';
 import ListProduct from './components/ListProduct';
 import { ToastContainer } from 'react-toastify';
 
@@ -17,6 +18,10 @@ function App() {
 		{
 			path: '/add-product',
 			element: <AddProduct />,
+		},
+		{
+			path: '/edit-product/:idProduct',
+			element: <EditProduct />,
 		},
 	]);
 	return (

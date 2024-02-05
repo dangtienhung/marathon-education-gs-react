@@ -1,79 +1,29 @@
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import 'react-toastify/dist/ReactToastify.css';
 
-import { useEffect, useState } from 'react';
+import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 
-import Button from 'react-bootstrap/Button';
-import Table from 'react-bootstrap/Table';
-import axios from 'axios';
+import AddProduct from './components/AddProduct';
+import ListProduct from './components/ListProduct';
+import { ToastContainer } from 'react-toastify';
 
 function App() {
-	const [proudcts, setProducts] = useState([]);
-	console.log('🚀 ~ App ~ proudcts:', proudcts);
-
-	useEffect(() => {
-		const fetchData = async () => {
-			const response = await axios.get('http://localhost:3000/products');
-			const data = response.data;
-			setProducts(data);
-		};
-		fetchData();
-	}, []);
-
-	const handleDeleteProduct = async (id) => {
-		console.log(id);
-	};
-
+	const routers = createBrowserRouter([
+		{
+			path: '/',
+			element: <ListProduct />,
+		},
+		{
+			path: '/add-product',
+			element: <AddProduct />,
+		},
+	]);
 	return (
-		<div
-			style={{
-				padding: '40px',
-			}}
-		>
-			<Table
-				striped
-				bordered
-				hover
-				width={900}
-				className="px-5"
-				style={{
-					padding: '40px',
-				}}
-			>
-				<thead>
-					<tr>
-						<th>#</th>
-						<th>Name</th>
-						<th>Pirce</th>
-						<th>Image</th>
-						<th>Action</th>
-					</tr>
-				</thead>
-				<tbody>
-					{proudcts &&
-						proudcts.length > 0 &&
-						proudcts.map((product) => (
-							<tr key={product.id}>
-								<td>{product.id}</td>
-								<td>{product.name}</td>
-								<td>{product.price}</td>
-								<td>
-									<img src={product.image} />
-								</td>
-								<td>
-									<Button variant="primary">Edit</Button>
-									<Button
-										variant="danger"
-										onClick={() => handleDeleteProduct(product.id)}
-									>
-										Delete
-									</Button>
-								</td>
-							</tr>
-						))}
-				</tbody>
-			</Table>
-		</div>
+		<>
+			<RouterProvider router={routers} />
+			<ToastContainer />
+		</>
 	);
 }
 

@@ -39,6 +39,7 @@ const AddProduct = () => {
 				padding: '40px',
 			}}
 		>
+			<h2 className="">Thêm sản phẩm</h2>
 			<Form onSubmit={handleSubmit}>
 				<Form.Group className="mb-3">
 					<Form.Label>Product Name</Form.Label>

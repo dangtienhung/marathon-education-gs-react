@@ -10,6 +10,7 @@ import ListProduct from './components/ListProduct';
 import { ToastContainer } from 'react-toastify';
 
 function App() {
+	// router: điều hương trang
 	const routers = createBrowserRouter([
 		{
 			path: '/',
@@ -20,7 +21,7 @@ function App() {
 			element: <AddProduct />,
 		},
 		{
-			path: '/edit-product/:idProduct',
+			path: '/edit-product/:id',
 			element: <EditProduct />,
 		},
 	]);

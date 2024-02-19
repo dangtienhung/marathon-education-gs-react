@@ -11,6 +11,7 @@ const ListProduct = () => {
 	console.log('🚀 ~ App ~ proudcts:', proudcts);
 	const [loading, setLoading] = useState(false);
 
+	// get data products
 	useEffect(() => {
 		const fetchData = async () => {
 			setLoading(true);
@@ -22,6 +23,7 @@ const ListProduct = () => {
 		fetchData();
 	}, []);
 
+	// Delete product
 	const handleDeleteProduct = async (id) => {
 		try {
 			await axios.delete(`http://localhost:3000/products/${id}`);

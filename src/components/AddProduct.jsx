@@ -8,21 +8,53 @@ import { useState } from 'react';
 const AddProduct = () => {
 	const navigate = useNavigate();
 
+	const PRESET_NAME = 'gs-001';
+	const FOLDER_NAME = 'gs-001';
+	const CLOUD_NAME = 'dcwdrvxdg';
+	const api = `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`;
+	console.log('🚀 ~ AddProduct ~ api:', api);
+
 	const [productName, setProductName] = useState('');
 	const [price, setPrice] = useState('');
-	const [image, setImage] = useState('');
+	const [image, setImage] = useState([]);
+
+	const handleUpdateImage = async (event) => {
+		const files = event.target.files;
+		/* upload image to cloudinary */
+		const formData = new FormData();
+
+		formData.append('upload_preset', PRESET_NAME);
+		formData.append('folder', FOLDER_NAME);
+
+		for (const file of files) {
+			formData.append('file', file);
+			const response = await axios.post(api, formData, {
+				headers: {
+					'Content-Type': 'multipart/form-data',
+				},
+			});
+			const data = response.data;
+			// setImage(data.url);
+			setImage((prev) => [...prev, data.url]);
+		}
+	};
 
 	const handleSubmit = async (event) => {
 		event.preventDefault();
 		try {
-			const data = {
-				name: productName,
-				price: price,
-				image: image,
-			};
-			const response = await axios.post('http://localhost:3000/products', data);
-			toast.success('Product added successfully');
-			navigate('/');
+			if (image) {
+				const data = {
+					name: productName,
+					price: price,
+					image: image,
+				};
+				const response = await axios.post(
+					'http://localhost:3000/products',
+					data
+				);
+				toast.success('Product added successfully');
+				navigate('/');
+			}
 		} catch (error) {
 			console.log('🚀 ~ handleSubmit ~ error:', error);
 			toast.error('Something went wrong');
@@ -64,10 +96,10 @@ const AddProduct = () => {
 				<Form.Group className="mb-3">
 					<Form.Label>Image</Form.Label>
 					<Form.Control
-						type="text"
+						type="file"
 						placeholder="Enter image"
-						value={image}
-						onChange={(e) => setImage(e.target.value)}
+						// multiple
+						onChange={(e) => handleUpdateImage(e)}
 					/>
 				</Form.Group>
 
